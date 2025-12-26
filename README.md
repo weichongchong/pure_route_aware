@@ -3,6 +3,8 @@
 [![pub package](https://img.shields.io/pub/v/pure_route_aware.svg)](https://pub.dev/packages/pure_route_aware)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
+[中文文档](README_zh.md)
+
 A **pure** alternative to Flutter's `RouteAware` for route visibility callbacks **without triggering widget rebuilds**.
 
 ## The Problem
