@@ -1,0 +1,25 @@
+name: pure_route_aware
+description: "A pure alternative to Flutter's RouteAware with no rebuild side-effects. Listen to route visibility changes without triggering widget rebuilds."
+version: 1.0.0
+homepage: https://github.com/weichongchong/pure_route_aware
+repository: https://github.com/weichongchong/pure_route_aware
+issue_tracker: https://github.com/weichongchong/pure_route_aware/issues
+
+topics:
+  - route
+  - navigation
+  - lifecycle
+  - route-aware
+
+environment:
+  sdk: ^3.0.0
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
