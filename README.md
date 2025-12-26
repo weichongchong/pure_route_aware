@@ -16,10 +16,10 @@ When using Flutter's built-in `RouteAware` with `RouteObserver`, you typically n
 ## Features
 
 - ✅ **No rebuild side-effects** - Uses `ModalRoute.settingsOf()` instead of `ModalRoute.of()`
-- ✅ **Same API as RouteAware** - All 4 callbacks: `didPush`, `didPop`, `didPushNext`, `didPopNext`
+- ✅ **Simple API** - Only 2 callbacks: `didPushNext`, `didPopNext`
 - ✅ **Popup filtering** - Dialogs and bottom sheets don't trigger visibility callbacks
 - ✅ **Multiple listeners** - Multiple widgets on the same route can listen independently
-- ✅ **Easy to use** - Just a mixin and an observer
+- ✅ **Easy to use** - Just a mixin and an observer, no manual subscribe/unsubscribe
 
 ## Installation
 
@@ -47,50 +47,46 @@ MaterialApp(
 
 ### 2. Use the Mixin in Your Pages
 
+**Simple way (recommended):**
+
 ```dart
 import 'package:pure_route_aware/pure_route_aware.dart';
 
-class MyPage extends StatefulWidget {
-  const MyPage({super.key});
-
-  @override
-  State<MyPage> createState() => _MyPageState();
-}
-
 class _MyPageState extends State<MyPage> with PureRouteAwareMixin<MyPage> {
   @override
-  void didPush() {
-    // Called when this route is pushed onto the navigator
-    debugPrint('Page pushed');
+  void onRouteVisibilityChanged(bool visible) {
+    if (visible) {
+      // Page is now visible - resume video, refresh data, etc.
+      videoController.play();
+    } else {
+      // Page is now hidden - pause video, stop animations, etc.
+      videoController.pause();
+    }
   }
 
   @override
-  void didPop() {
-    // Called when this route is popped off the navigator
-    debugPrint('Page popped');
-  }
+  Widget build(BuildContext context) => ...;
+}
+```
 
+**Or use separate callbacks:**
+
+```dart
+class _MyPageState extends State<MyPage> with PureRouteAwareMixin<MyPage> {
   @override
   void didPushNext() {
-    // Called when a new route is pushed on top of this one
-    debugPrint('Page is now hidden');
-    // Pause video, stop animations, etc.
+    super.didPushNext();
+    videoController.pause();  // Page hidden
   }
 
   @override
   void didPopNext() {
-    // Called when the route above this one is popped
-    debugPrint('Page is now visible');
-    // Resume video, refresh data, etc.
+    super.didPopNext();
+    videoController.play();  // Page visible
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('My Page')),
-      body: const Center(child: Text('Hello')),
-    );
-  }
+  Widget build(BuildContext context) => ...;
 }
 ```
 
@@ -121,10 +117,9 @@ A mixin for `State` classes that provides route visibility callbacks:
 | Property/Method | Description |
 |-----------------|-------------|
 | `isRouteVisible` | Returns `true` if the current route is visible |
-| `didPush()` | Called when this route is pushed onto the navigator |
-| `didPop()` | Called when this route is popped off the navigator |
-| `didPushNext()` | Called when a new route is pushed on top |
-| `didPopNext()` | Called when the route above is popped |
+| `onRouteVisibilityChanged(bool)` | Called when route visibility changes (recommended) |
+| `didPushNext()` | Called when page becomes hidden |
+| `didPopNext()` | Called when page becomes visible |
 
 ### PureRouteRegistry
 
@@ -136,9 +131,9 @@ Internal registry for managing route-to-widget mappings. Typically not used dire
 |---------|------------|---------------------|
 | Requires `ModalRoute.of()` | Yes | No |
 | Causes rebuilds | Yes | No |
+| Manual subscribe/unsubscribe | Yes | No (automatic) |
 | Popup filtering | Manual | Automatic |
 | Multiple listeners per route | Complex | Built-in |
-| Callbacks | 4 | 4 (same) |
 
 ## License
 

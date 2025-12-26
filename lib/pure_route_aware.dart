@@ -1,4 +1,4 @@
-/// A pure route lifecycle management module.
+/// A pure route visibility management library.
 ///
 /// Provides route visibility callbacks without triggering widget rebuilds,
 /// as a pure alternative to Flutter's `RouteAware` with `ModalRoute.of(context)`.
@@ -16,16 +16,9 @@
 /// ```dart
 /// class _MyPageState extends State<MyPage> with PureRouteAwareMixin<MyPage> {
 ///   @override
-///   void didPush() => debugPrint('Page pushed');
-///
-///   @override
-///   void didPop() => debugPrint('Page popped');
-///
-///   @override
-///   void didPushNext() => debugPrint('Page is now hidden');
-///
-///   @override
-///   void didPopNext() => debugPrint('Page is now visible');
+///   void onRouteVisibilityChanged(bool visible) {
+///     debugPrint('Page visible: $visible');
+///   }
 /// }
 /// ```
 library;

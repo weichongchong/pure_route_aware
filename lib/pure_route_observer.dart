@@ -52,12 +52,12 @@ class PureRouteObserver extends NavigatorObserver {
 
   @override
   void didReplace({Route? newRoute, Route? oldRoute}) {
-    // Replace scenario: no notification needed
+    // Not handled, same as official RouteObserver
   }
 
   @override
   void didRemove(Route route, Route? previousRoute) {
-    // Page removed: no notification needed
+    // Not handled, same as official RouteObserver
   }
 }
 

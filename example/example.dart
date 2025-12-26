@@ -39,24 +39,9 @@ class _HomePageState extends State<HomePage> with PureRouteAwareMixin<HomePage> 
   }
 
   @override
-  void didPush() {
-    super.didPush();
-    // Called when this route is pushed onto the navigator
-    _addLog('didPush - Page entered');
-    debugPrint('HomePage: didPush');
-  }
-
-  @override
-  void didPop() {
-    super.didPop();
-    // Called when this route is popped off the navigator
-    debugPrint('HomePage: didPop');
-  }
-
-  @override
   void didPushNext() {
     super.didPushNext();
-    // Called when a new route is pushed on top
+    // Called when a new route is pushed on top (page becomes hidden)
     setState(() => _status = 'Hidden');
     _addLog('didPushNext - Page hidden');
     debugPrint('HomePage: didPushNext');
@@ -65,7 +50,7 @@ class _HomePageState extends State<HomePage> with PureRouteAwareMixin<HomePage> 
   @override
   void didPopNext() {
     super.didPopNext();
-    // Called when the route above is popped
+    // Called when the route above is popped (page becomes visible)
     setState(() => _status = 'Visible');
     _addLog('didPopNext - Page visible');
     debugPrint('HomePage: didPopNext');
@@ -156,15 +141,15 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> with PureRouteAwareMixin<DetailPage> {
   @override
-  void didPush() {
-    super.didPush();
-    debugPrint('DetailPage: didPush');
+  void didPushNext() {
+    super.didPushNext();
+    debugPrint('DetailPage: didPushNext - hidden');
   }
 
   @override
-  void didPop() {
-    super.didPop();
-    debugPrint('DetailPage: didPop');
+  void didPopNext() {
+    super.didPopNext();
+    debugPrint('DetailPage: didPopNext - visible');
   }
 
   @override
